@@ -102,17 +102,17 @@ def pass_wheels(input, reverse = False):
 
     else:
         # 첫번째 휠 통과
-        index = ETW.find(input)
-        input = SETTINGS["WHEELS"][0]["wire"][index]
+        
+        index = SETTINGS["WHEELS"][0]["wire"].find(input)
+        input = ETW[index]
 
         # 두번째 휠 통과
-        index = ETW.find(input)
-        input = SETTINGS["WHEELS"][1]["wire"][index]
+        index = SETTINGS["WHEELS"][1]["wire"].find(input)
+        input = ETW[index]
 
         # 세번째 휠 통과
-        index = ETW.find(input)
-        input = SETTINGS["WHEELS"][2]["wire"][index]
-
+        index = SETTINGS["WHEELS"][2]["wire"].find(input)
+        input = ETW[index]
     return input
 
 # UKW
