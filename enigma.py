@@ -8,11 +8,12 @@
 
 from copy import deepcopy
 from ctypes import ArgumentError
+from pickle import SETITEM
 from tkinter import E
 
 # Enigma Components
 ETW = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-
+start=True
 WHEELS = {
     "I" : {
         "wire": "EKMFLGDQVZNTOWYHXUSPAIBRCJ",
@@ -47,27 +48,23 @@ def apply_settings(ukw, wheel, wheel_pos, plugboard):
     if not ukw in UKW:
         raise ArgumentError(f"UKW {ukw} does not exist!")
     SETTINGS["UKW"] = UKW[ukw]
-    print(SETTINGS["UKW"])
 
     wheels = wheel.split(' ')
     for wh in wheels:
         if not wh in WHEELS:
             raise ArgumentError(f"WHEEL {wh} does not exist!")
         SETTINGS["WHEELS"].append(WHEELS[wh])
-    print(SETTINGS["WHEELS"])
     wheel_poses = wheel_pos.split(' ')
     for wp in wheel_poses:
         if not wp in ETW:
             raise ArgumentError(f"WHEEL position must be in A-Z!")
         SETTINGS["WHEEL_POS"].append(ord(wp) - ord('A'))
-    print(SETTINGS["WHEEL_POS"])
     
     plugboard_setup = plugboard.split(' ')
     for ps in plugboard_setup:
         if not len(ps) == 2 or not ps.isupper():
             raise ArgumentError(f"Each plugboard setting must be sized in 2 and caplitalized; {ps} is invalid")
         SETTINGS["PLUGBOARD"].append(ps)
-    print(SETTINGS["PLUGBOARD"])
 
 # Enigma Logics Start
 
@@ -91,22 +88,28 @@ def pass_wheels(input, reverse = False):
     # Keep in mind that reflected signals pass wheels in reverse order
 
     if not reverse :
+        # 첫번째 휠 통과
         index = ETW.find(input)
         input = SETTINGS["WHEELS"][2]["wire"][index]
 
+        # 두번째 휠 통과
         index = ETW.find(input)
         input = SETTINGS["WHEELS"][1]["wire"][index]
 
+        # 세번째 휠 통과
         index = ETW.find(input)
         input = SETTINGS["WHEELS"][0]["wire"][index]
 
     else:
+        # 첫번째 휠 통과
         index = ETW.find(input)
         input = SETTINGS["WHEELS"][0]["wire"][index]
 
+        # 두번째 휠 통과
         index = ETW.find(input)
         input = SETTINGS["WHEELS"][1]["wire"][index]
 
+        # 세번째 휠 통과
         index = ETW.find(input)
         input = SETTINGS["WHEELS"][2]["wire"][index]
 
@@ -119,8 +122,35 @@ def pass_ukw(input):
 # Wheel Rotation
 def rotate_wheels():
     # Implement Wheel Rotation Logics
+    global start
+    if  start:
+        start = False
+        for _ in range(SETTINGS["WHEEL_POS"][0]):
+            SETTINGS["WHEELS"][0]["wire"] =  SETTINGS["WHEELS"][0]["wire"][1:26] + SETTINGS["WHEELS"][0]["wire"][0] 
+        for _ in range(SETTINGS["WHEEL_POS"][1]):
+            SETTINGS["WHEELS"][1]["wire"] =  SETTINGS["WHEELS"][1]["wire"][1:26] + SETTINGS["WHEELS"][1]["wire"][0] 
+        for _ in range(SETTINGS["WHEEL_POS"][2]):
+            SETTINGS["WHEELS"][2]["wire"] =  SETTINGS["WHEELS"][2]["wire"][1:26] + SETTINGS["WHEELS"][2]["wire"][0] 
+
+        # print("초기화 "+ SETTINGS["WHEELS"][0]["wire"])
+        # print("초기화 "+ SETTINGS["WHEELS"][1]["wire"])
+        # print("초기화 "+ SETTINGS["WHEELS"][2]["wire"])
     
-    pass
+
+
+    wheel_I_turn    = SETTINGS["WHEELS"][0]["wire"][(SETTINGS["WHEELS"][0]['turn'])]
+    wheel_II_turn   = SETTINGS["WHEELS"][1]["wire"][(SETTINGS["WHEELS"][1]['turn'])]
+
+    SETTINGS["WHEELS"][0]["wire"] =  SETTINGS["WHEELS"][0]["wire"][1:26]+ SETTINGS["WHEELS"][0]["wire"][0]
+    if wheel_I_turn == SETTINGS["WHEELS"][0]['wire'][0]:
+        SETTINGS["WHEELS"][1]["wire"] =  SETTINGS["WHEELS"][1]["wire"][1:26] + SETTINGS["WHEELS"][1]["wire"][0]
+
+        if wheel_II_turn == SETTINGS["WHEELS"][1]['wire'][0]:
+            SETTINGS["WHEELS"][2]["wire"] =  SETTINGS["WHEELS"][2]["wire"][1:26] + SETTINGS["WHEELS"][2]["wire"][0]
+    
+    # print("회전 : ",SETTINGS["WHEELS"][0]["wire"])
+    # print("회전 : ",SETTINGS["WHEELS"][1]["wire"])
+    # print("회전 : ",SETTINGS["WHEELS"][2]["wire"])
 
 # Enigma Exec Start
 plaintext = input("Plaintext to Encode: ")
@@ -142,5 +172,6 @@ for ch in plaintext:
     encoded_ch = pass_ukw(encoded_ch)
     encoded_ch = pass_wheels(encoded_ch, reverse = True)
     encoded_ch = pass_plugboard(encoded_ch)
+
 
     print(encoded_ch, end='')
