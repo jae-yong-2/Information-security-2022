@@ -92,23 +92,23 @@ def pass_wheels(input, reverse = False):
 
     if not reverse :
         index = ETW.find(input)
-        input = SETTINGS["WHEELS"]["wire"][2][index]
+        input = SETTINGS["WHEELS"][2]["wire"][index]
 
         index = ETW.find(input)
-        input = SETTINGS["WHEELS"]["wire"][1][index]
+        input = SETTINGS["WHEELS"][1]["wire"][index]
 
         index = ETW.find(input)
-        input = SETTINGS["WHEELS"]["wire"][0][index]
+        input = SETTINGS["WHEELS"][0]["wire"][index]
 
     else:
         index = ETW.find(input)
-        input = SETTINGS["WHEELS"]["wire"][0][index]
+        input = SETTINGS["WHEELS"][0]["wire"][index]
 
         index = ETW.find(input)
-        input = SETTINGS["WHEELS"]["wire"][1][index]
+        input = SETTINGS["WHEELS"][1]["wire"][index]
 
         index = ETW.find(input)
-        input = SETTINGS["WHEELS"]["wire"][2][index]
+        input = SETTINGS["WHEELS"][2]["wire"][index]
 
     return input
 
@@ -119,6 +119,7 @@ def pass_ukw(input):
 # Wheel Rotation
 def rotate_wheels():
     # Implement Wheel Rotation Logics
+    
     pass
 
 # Enigma Exec Start
