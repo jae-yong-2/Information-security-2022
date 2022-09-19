@@ -88,7 +88,7 @@ def pass_wheels(input, reverse = False):
     # Keep in mind that reflected signals pass wheels in reverse order
 
     if not reverse :
-        # 첫번째 휠 통과
+        # 세번째 휠 통과
         index = ETW.find(input)
         input = SETTINGS["WHEELS"][2]["wire"][index]
 
@@ -96,13 +96,12 @@ def pass_wheels(input, reverse = False):
         index = ETW.find(input)
         input = SETTINGS["WHEELS"][1]["wire"][index]
 
-        # 세번째 휠 통과
+        # 첫번째 휠 통과
         index = ETW.find(input)
         input = SETTINGS["WHEELS"][0]["wire"][index]
 
     else:
         # 첫번째 휠 통과
-        
         index = SETTINGS["WHEELS"][0]["wire"].find(input)
         input = ETW[index]
 
@@ -123,6 +122,7 @@ def pass_ukw(input):
 def rotate_wheels():
     # Implement Wheel Rotation Logics
     global start
+    #초기화 알고리즘
     if  start:
         start = False
         for _ in range(SETTINGS["WHEEL_POS"][0]):
@@ -137,10 +137,11 @@ def rotate_wheels():
         # print("초기화 "+ SETTINGS["WHEELS"][2]["wire"])
     
 
-
+    #회전하는 타이밍 저장
     wheel_I_turn    = SETTINGS["WHEELS"][0]["wire"][(SETTINGS["WHEELS"][0]['turn'])]
     wheel_II_turn   = SETTINGS["WHEELS"][1]["wire"][(SETTINGS["WHEELS"][1]['turn'])]
 
+    #회전 구현
     SETTINGS["WHEELS"][0]["wire"] =  SETTINGS["WHEELS"][0]["wire"][1:26]+ SETTINGS["WHEELS"][0]["wire"][0]
     if wheel_I_turn == SETTINGS["WHEELS"][0]['wire'][0]:
         SETTINGS["WHEELS"][1]["wire"] =  SETTINGS["WHEELS"][1]["wire"][1:26] + SETTINGS["WHEELS"][1]["wire"][0]
