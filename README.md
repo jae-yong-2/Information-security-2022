@@ -9,8 +9,3 @@
 * [https://www.cryptomuseum.com/crypto/enigma/i/index.htm]
 * [https://cryptii.com/pipes/enigma-machine]
 * [https://piotte13.github.io/enigma-cipher/]
-# Information-security-2022
-# Information-security-2022
-# Information-security-2022
-# Information-security-2022
-# Information-security-2022
