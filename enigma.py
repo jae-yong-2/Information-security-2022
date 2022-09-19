@@ -8,6 +8,7 @@
 
 from copy import deepcopy
 from ctypes import ArgumentError
+from tkinter import E
 
 # Enigma Components
 ETW = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -88,6 +89,27 @@ def pass_etw(input):
 def pass_wheels(input, reverse = False):
     # Implement Wheel Logics
     # Keep in mind that reflected signals pass wheels in reverse order
+
+    if not reverse :
+        index = ETW.find(input)
+        input = SETTINGS["WHEELS"]["wire"][2][index]
+
+        index = ETW.find(input)
+        input = SETTINGS["WHEELS"]["wire"][1][index]
+
+        index = ETW.find(input)
+        input = SETTINGS["WHEELS"]["wire"][0][index]
+
+    else:
+        index = ETW.find(input)
+        input = SETTINGS["WHEELS"]["wire"][0][index]
+
+        index = ETW.find(input)
+        input = SETTINGS["WHEELS"]["wire"][1][index]
+
+        index = ETW.find(input)
+        input = SETTINGS["WHEELS"]["wire"][2][index]
+
     return input
 
 # UKW
