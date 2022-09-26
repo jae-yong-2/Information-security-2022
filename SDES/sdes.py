@@ -121,10 +121,11 @@ def sdes(text: bitarray, key: bitarray, mode) -> bitarray:
     
     # Place your own implementation of S-DES Here
     if mode == MODE_ENCRYPT:
+
         round_left = schedule_keys(key)[0]
         round_right = schedule_keys(key)[1]
-        round_key_1 = round_left + round_right
 
+        round_key_1 = round_left + round_right
 
         result_left = round(text,round_left)
         result_right = round(text,round_right)
@@ -140,8 +141,25 @@ def sdes(text: bitarray, key: bitarray, mode) -> bitarray:
         result = result_left + result_right
 
     if mode == MODE_DECRYPT:
-        pass
+        
+        round_left_1 = schedule_keys(key)[0]
+        round_right_1 = schedule_keys(key)[1]
 
+        round_key_1 = round_left_1 + round_right_1
+
+        round_left_2 = schedule_keys(round_key_1)[0]
+        round_right_2 = schedule_keys(round_key_1)[1]
+
+        result_left = round(text,round_left_2)
+        result_right = round(text,round_right_2)
+
+        result_sum = result_left + result_right
+
+
+        result_left = round(result_sum,round_left_1)
+        result_right = round(result_sum,round_right_1)
+
+        result = result_left + result_right
 
     return result
 
