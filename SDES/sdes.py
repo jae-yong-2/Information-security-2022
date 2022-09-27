@@ -6,6 +6,7 @@
 
 from ctypes import ArgumentError
 import re
+from unittest import result
 from bitarray import bitarray, util as ba_util
 
 # Initial Permutation (IP)
@@ -116,51 +117,31 @@ sdes: encrypts/decrypts plaintext or ciphertext.
 mode determines that this function do encryption or decryption.
      MODE_ENCRYPT or MODE_DECRYPT available.
 '''
+
+def algorithm(left, right, key):
+
+    text_left = left
+    text_right = right
+    round_right = round( text_right, key )
+    
+    print(text_left)
+    text_left = text_left ^ round_right
+    print(round_right)
+    print(text_left)
+    return text_left + text_right
+
 def sdes(text: bitarray, key: bitarray, mode) -> bitarray:
     result = bitarray()
     
+    k1 = schedule_keys(key)[0]
+    k2 = schedule_keys(key)[1]
     # Place your own implementation of S-DES Here
     if mode == MODE_ENCRYPT:
-
-        round_left = schedule_keys(key)[0]
-        round_right = schedule_keys(key)[1]
-
-        round_key_1 = round_left + round_right
-
-        result_left = round(text,round_left)
-        result_right = round(text,round_right)
-
-        result_sum = result_left + result_right
-
-        round_left = schedule_keys(round_key_1)[0]
-        round_right = schedule_keys(round_key_1)[1]
-
-        result_left = round(result_sum,round_left)
-        result_right = round(result_sum,round_right)
-        
-        result = result_left + result_right
+        fitsrt_text = algorithm( text[0:4], text[4:8], k1 )
+        result = algorithm( fitsrt_text[4:8], fitsrt_text[0:4], k2)
 
     if mode == MODE_DECRYPT:
-        
-        round_left_1 = schedule_keys(key)[0]
-        round_right_1 = schedule_keys(key)[1]
-
-        round_key_1 = round_left_1 + round_right_1
-
-        round_left_2 = schedule_keys(round_key_1)[0]
-        round_right_2 = schedule_keys(round_key_1)[1]
-
-        result_left = round(text,round_left_2)
-        result_right = round(text,round_right_2)
-
-        result_sum = result_left + result_right
-
-
-        result_left = round(result_sum,round_left_1)
-        result_right = round(result_sum,round_right_1)
-
-        result = result_left + result_right
-
+        pass
     return result
 
 #### DES Sample Program Start
