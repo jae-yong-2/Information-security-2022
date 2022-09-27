@@ -124,10 +124,7 @@ def algorithm(left, right, key):
     text_right = right
     round_right = round( text_right, key )
     
-    print(text_left)
     text_left = text_left ^ round_right
-    print(round_right)
-    print(text_left)
     return text_left + text_right
 
 def sdes(text: bitarray, key: bitarray, mode) -> bitarray:
