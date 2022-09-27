@@ -141,7 +141,8 @@ def sdes(text: bitarray, key: bitarray, mode) -> bitarray:
         result = algorithm( fitsrt_text[4:8], fitsrt_text[0:4], k2)
 
     if mode == MODE_DECRYPT:
-        pass
+        fitsrt_text = algorithm( text[0:4], text[4:8], k2 )
+        result = algorithm( fitsrt_text[4:8], fitsrt_text[0:4], k1)
     return result
 
 #### DES Sample Program Start
