@@ -12,6 +12,8 @@ from Crypto.Util.Padding import pad, unpad
 ENCRYPTION_KEY:bytes = b''
 BLOCK_SIZE = 16
 
+
+
 class Receiver(Thread):
     def __init__(self, socket:socket):
         super().__init__()
@@ -20,8 +22,12 @@ class Receiver(Thread):
     def decrypt(self, ciphertext:bytes) -> bytes:
         # place your own implementation of
         # AES-128-ECB decryption with pycryptodome
+        text = pad(msg, BLOCK_SIZE)
+        cipher = AES.new(ENCRYPTION_KEY, AES.MODE_ECB)
+        ciphertext = cipher.decrypt(text)
+        print("decrypt",ciphertext)
 
-        return b''
+        return ciphertext
 
     def handle_recv(self, received:bytes):
         try:
@@ -38,8 +44,11 @@ class Receiver(Thread):
 def encrypt_message(msg: bytes) -> bytes:
     # place your own implementation of
     # AES-128-ECB encryption with pycryptodome
-
-    return b''
+    text = pad(msg, BLOCK_SIZE)
+    cipher = AES.new(ENCRYPTION_KEY, AES.MODE_ECB)
+    ciphertext = cipher.encrypt(text)
+    print("encrypt",ciphertext)
+    return ciphertext
 
 client_socket = socket(AddressFamily.AF_INET, SocketKind.SOCK_STREAM)
 client_socket.connect(('127.0.0.1', 24000))
