@@ -22,7 +22,7 @@ class Receiver(Thread):
     def decrypt(self, ciphertext:bytes) -> bytes:
         # place your own implementation of
         # AES-128-ECB decryption with pycryptodome
-        text = pad(msg, BLOCK_SIZE)
+        text = unpad(msg, BLOCK_SIZE)
         cipher = AES.new(ENCRYPTION_KEY, AES.MODE_ECB)
         ciphertext = cipher.decrypt(text)
         print("decrypt",ciphertext)
