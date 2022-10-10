@@ -152,10 +152,8 @@ def sdes_encrypt_ecb(text: bitarray, key: bitarray):
 
     encrypt_text = ""
     for i in range(block_count):
-        print(sdes(text[4*i:4*i+8],key,mode = MODE_ENCRYPT))
 
-        encrypt_text = encrypt_text + sdes(text[4*i:4*i+8],key,mode = MODE_ENCRYPT).to01() +""
-
+        encrypt_text = encrypt_text + sdes(text[8*i:8*i+8],key,mode = MODE_ENCRYPT).to01() +""
 
     return bitarray( encrypt_text )
 
@@ -163,21 +161,35 @@ def sdes_decrypt_ecb(ciphertext: bitarray, key: bitarray):
 
     block_count = len(ciphertext) // 8
 
+    decrypt_text = ""
+    for i in range(block_count):
+
+        decrypt_text = decrypt_text + sdes(ciphertext[8*i:8*i+8],key,mode = MODE_DECRYPT).to01() +""
+    return bitarray( decrypt_text )
+
+
+def sdes_encrypt_cbc(text: bitarray, key: bitarray, iv:bitarray):
+    
+    block_count = len(text) // 8
+
     encrypt_text = ""
     for i in range(block_count):
-        print(sdes(ciphertext[4*i:4*i+8],key,mode = MODE_ENCRYPT))
 
-        encrypt_text = encrypt_text + sdes(ciphertext[4*i:4*i+8],key,mode = MODE_ENCRYPT).to01() +""
-
+        encrypt_text = encrypt_text + sdes(text[8*i:8*i+8],key,mode = MODE_ENCRYPT).to01() +""
 
     return bitarray( encrypt_text )
 
 
-def sdes_encrypt_cbc(text: bitarray, key: bitarray, iv:bitarray):
-    pass
-
 def sdes_decrypt_cbc(ciphertext: bitarray, key: bitarray, iv:bitarray):
-    pass
+    
+    block_count = len(ciphertext) // 8
+
+    decrypt_text = ""
+    for i in range(block_count):
+
+        decrypt_text = decrypt_text + sdes(ciphertext[8*i:8*i+8],key,mode = MODE_DECRYPT).to01() +""
+    return bitarray( decrypt_text )
+
 
 #### DES Sample Program Start
 
