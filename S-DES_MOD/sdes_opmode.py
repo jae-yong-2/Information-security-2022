@@ -164,7 +164,7 @@ def sdes_decrypt_ecb(ciphertext: bitarray, key: bitarray):
     decrypt_text = ""
     for i in range(block_count):
 
-        decrypt_text = decrypt_text + sdes(ciphertext[8*i:8*i+8],key,mode = MODE_DECRYPT).to01() +""
+        decrypt_text = decrypt_text +  sdes(ciphertext[8*i:8*i+8],key,mode = MODE_DECRYPT).to01() +""
     return bitarray( decrypt_text )
 
 
@@ -172,10 +172,11 @@ def sdes_encrypt_cbc(text: bitarray, key: bitarray, iv:bitarray):
     
     block_count = len(text) // 8
 
+
     encrypt_text = ""
     for i in range(block_count):
-
-        encrypt_text = encrypt_text + sdes(text[8*i:8*i+8],key,mode = MODE_ENCRYPT).to01() +""
+        block = iv ^ text[8*i:8*i+8]
+        encrypt_text = encrypt_text + sdes(block,key,mode = MODE_ENCRYPT).to01() +""
 
     return bitarray( encrypt_text )
 
@@ -186,8 +187,7 @@ def sdes_decrypt_cbc(ciphertext: bitarray, key: bitarray, iv:bitarray):
 
     decrypt_text = ""
     for i in range(block_count):
-
-        decrypt_text = decrypt_text + sdes(ciphertext[8*i:8*i+8],key,mode = MODE_DECRYPT).to01() +""
+        decrypt_text = decrypt_text + (iv ^sdes( ciphertext[8*i:8*i+8],key,mode = MODE_DECRYPT)).to01() +""
     return bitarray( decrypt_text )
 
 
@@ -225,7 +225,7 @@ else:
     print(f"S-DES-ECB SUCCESS!!!")
 
 # now IV will be always 8 bits
-random_iv = bitarray(bin(random.getrandbits(7) + (1 << 8)).replace('0b', ''))
+random_iv = bitarray(bin(random.getrandbits(7) + (1 << 7)).replace('0b', ''))
 print(f"IV will be random...{random_iv}")
 
 result_encrypt = sdes_encrypt_cbc(bits_plaintext, bits_key, random_iv)
