@@ -27,10 +27,10 @@ def gcd(a, b):
 def make_keys(p: BigNumber, q: BigNumber):
     # place your own implementation of make_keys
     # use e = 65537 as if FIPS standard
-    e = 65537
+    e = 65537 
     n = p * q
     for i in range(0, n):
-        if ( i * e ) % n == 1 :
+        if ( i * e ) % ((p-1)*(q-1)) == 1 :
             d = i
     return [e, d, n]
 
