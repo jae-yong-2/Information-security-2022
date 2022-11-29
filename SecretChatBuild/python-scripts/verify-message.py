@@ -21,7 +21,6 @@ def verify(msg, key, signature):
     # PKCS #1 v1.5 를 이용한 전자서명 검증, 성공시 "ok" 리턴
     key = RSA.import_key(open('private_key.der').read())
     h = SHA256.new(msg)
-    signature = pkcs1_15.new(key).sign(h)
     return pkcs1_15.new(key).verify(h, signature)
 
 [msg, pubkey, signature] = read_from_base64()
