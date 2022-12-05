@@ -12,8 +12,9 @@ def read_from_base64():
     return [ decode_base64(input()), decode_base64(input()) ]
 
 def encrypt_secret(secret, pubkey):
-    cipher = PKCS1_OAEP.new(pubkey)
-    return cipher.encrypt(secret)
+    key = RSA.import_key(pubkey)
+    cipher = PKCS1_OAEP.new(key)
+    return encode_base64(cipher.encrypt(secret))
 
 [secret, pubkey] = read_from_base64()
 cipher_str = encrypt_secret(secret, pubkey)
