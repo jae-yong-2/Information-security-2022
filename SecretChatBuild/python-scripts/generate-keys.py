@@ -9,9 +9,9 @@ secret = Random.get_random_bytes(32)
 # RSA 2048 키 생성 시작
 rsa = RSA.generate(2048)
 # 공개키 export
-pubkey = rsa.publickey().export_key()
+pubkey = rsa.publickey().exportkey('PEM')
 # 개인키 export
-prikey = rsa.export_key()
+prikey = rsa.exportkey('PEM')
 
 print(encode_base64(secret) + '\n')
 

@@ -18,7 +18,7 @@ def pad_message(msg):
 
 def encrypt_message(key, iv, msg):
     # AES 256 암호화 구현
-    cipher = AES.new(key, AES.MODE_ECB,iv)
+    cipher = AES.new(key, AES.MODE_EAX,iv)
     return cipher.encrypt(msg)
 
 [secretkey, message] = read_from_base64()

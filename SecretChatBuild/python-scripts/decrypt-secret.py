@@ -9,6 +9,7 @@ def read_from_base64():
     return [ decode_base64(input()), decode_base64(input()) ]
 
 def decrypt_secret(secret, priKey):
+    key = RSA.import_key(key)
     cipher = PKCS1_OAEP.new(priKey)
     return cipher.decrypt(secret)
 
