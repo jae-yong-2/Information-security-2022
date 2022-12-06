@@ -34,11 +34,10 @@ def verify(hash, key, signature):
 		return False
 	
 cert = read_as_json()
-hash_compare = cert["hash"]
-server_pubkey = decode_base64(cert["pubKey"])
-print(server_pubkey)
+hash_compare = make_cert_hash(cert["name"],cert["pubKey"])
+server_pubkey = decode_base64(cert["serverPubKey"])
 # bytes:서버 공개키 (HINT: JSON에는 BASE64 형태로 제공되어 있음)
-signature = cert["signature"]
+signature = (cert["signature"])
 # bytes:서버 서명 (HINT: JSON에는 BASE64 형태로 제공되어 있음)
 cert['isValid'] = verify(hash_compare,server_pubkey,signature)
 # 인증서 내 서명 검증
