@@ -28,10 +28,8 @@ def verify(hash, key, signature):
 
 	try:
 		pkcs1_15.new(key).verify(hash, signature)
-		print ("The signature is valid.")
 		return True
 	except (ValueError, TypeError):
-		print ("The signature is not valid.")
 		return False
 	
 cert = read_as_json()
