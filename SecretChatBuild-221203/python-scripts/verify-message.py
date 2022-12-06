@@ -26,7 +26,7 @@ def verify(msg, key, signature):
         return ("ok")
         
     except (ValueError, TypeError):
-        print ("The signature is not valid.")
+        return ("no")
 
 [msg, pubkey, signature] = read_from_base64()
 
