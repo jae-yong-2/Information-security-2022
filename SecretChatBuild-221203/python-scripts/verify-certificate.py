@@ -25,6 +25,7 @@ def read_as_json():
 def verify(hash, key, signature):
     # PKCS #1 v1.5 를 이용한 전자서명 검증, 성공시 True, 실패시 False 리턴
 	key = RSA.import_key(key)
+
 	try:
 		pkcs1_15.new(key).verify(hash, signature)
 		print ("The signature is valid.")
